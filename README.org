@@ -1,0 +1,29 @@
+#+TITLE: The Noddy Roguelike
+#+AUTHOR: Tariq Kamal
+
+A learning exercise on how to code a roguelike, using =pygame=.
+
+I'm using [[http://therealkatie.net/blog/tags/pygame/][this tutorial]] as a base, and will likely deviate as we go along. See how lah!
+
+* Some Important Notes, In Case You Forget
+
+** =pygame= is fucking broken
+
+No, seriously, at least as of 1.9.1release. You can't install it using =pip install pygame=. 
+
+Do try to install it using =pip install hg+https://bitbucket.com/pygame/pygame=, if only to confirm that the problem you were having was because the bloody problem was related to the network and not something about bitbucket.
+
+In the end, what we ended up doing was this (running on CrunchBang Waldorf):
+
+#+begin_src sh
+#! /bin/sh
+sudo apt-get build-dep python-pygame
+sudo apt-get install python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsdl1.2-dev libsmpeg-dev python-numpy subversion libportmidi-dev ffmpeg libswscale-dev libavformat-dev libavcodec-dev libv4l-dev
+cd /usr/include/linux
+sudo ln -s ../libv4l1-videodev.h videodev.h
+pip install http://www.pygame.org/ftp/pygame-1.9.1release.tar.gz
+#+end_src
+
+Basically: for some /damn/ reason, =pygame= keeps bloody referring to =videodev.h=, when it apparently doesn't bloody exist in the OS. Quick workaround? Create a symlink from =libv1l1-videodev.h= and call it =videodev.h=.
+
+Bloody annoyance, but I finally got it done. Thank god. Shouldn't need to happen again, but you never know.
