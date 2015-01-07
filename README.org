@@ -7,7 +7,15 @@ I'm using [[http://therealkatie.net/blog/tags/pygame/][this tutorial]] as a base
 
 * Some Important Notes, In Case You Forget
 
-** =pygame= is fucking broken
+** Quick notes on how this was set up
+
+(From base install of Python 2.7.3, using the Debian [[https://packages.debian.org/stable/python/][stable package]] (as of <2015-01-05 Mon>):
+
+- Install pip using [[https://bootstrap.pypa.io/get-pip.py][get-pip.py]].
+- =pip install virtualenv=
+- Shenanigans with =pygame=.
+
+*** =pygame= is fucking broken
 
 No, seriously, at least as of 1.9.1release. You can't install it using =pip install pygame=. 
 
@@ -27,3 +35,9 @@ pip install http://www.pygame.org/ftp/pygame-1.9.1release.tar.gz
 Basically: for some /damn/ reason, =pygame= keeps bloody referring to =videodev.h=, when it apparently doesn't bloody exist in the OS. Quick workaround? Create a symlink from =libv1l1-videodev.h= and call it =videodev.h=.
 
 Bloody annoyance, but I finally got it done. Thank god. Shouldn't need to happen again, but you never know.
+
+**** References
+
+[[https://gist.github.com/brousch/6395214][First pointers on how to solve this problem]].
+
+[[https://bitbucket.org/pygame/pygame/issue/140/pip-install-pygame-fails-on-ubuntu-1204][Pygame Issue #140, which references this problem]].
