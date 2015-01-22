@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import pygame, math, sys, os
+import pygame, math, sys, os, traceback
 from pygame.locals import *
 
 sys.path.append("noddy/code")
@@ -23,4 +23,10 @@ def main():
 # THE RUNNING PROGRAM
         
 if __name__ == "__main__":
-    main()
+    try:
+        pygame.init()
+        main()
+    except Exception, e:
+        tb = sys.exc_info()[2]
+        traceback.print_exception(e.__class__, e, tb)
+    pygame.quit()

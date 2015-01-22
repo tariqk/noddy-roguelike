@@ -11,8 +11,8 @@ WHITE = (255, 255, 255)
 
 TILESIZE = 16 # ASSUMPTION: icons are square
 WINDOW_SIZE = (800,600) # placeholder
-MAPSIZE = (WINDOW_SIZE[0]/TILESIZE,WINDOW_SIZE[1]/TILESIZE)
+MAPSIZE = (WINDOW_SIZE[0]/TILESIZE,(WINDOW_SIZE[1]/TILESIZE)-1)
 
 # resource locations
 
-RES_DIR = os.getcwd() + '/noddy/res/'
+RES_DIR = os.path.join(os.getcwd(), 'noddy', 'res')

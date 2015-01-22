@@ -15,20 +15,31 @@ class Game(object):
 
         self.player = pygame.image.load(os.path.join(RES_DIR, "img", "avg-humanoid.png"))
         self.bg = pygame.image.load(os.path.join(RES_DIR, "img", "floor-dot.png"))
+        self.font = pygame.font.SysFont(None, 18)
+        self.small_font = pygame.font.SysFont(None, 12)
         
         self.clock = pygame.time.Clock()
         self.display = pygame.display.set_mode(WINDOW_SIZE)
 
         self.player_pos = (MAPSIZE[0]/2,MAPSIZE[1]/2)
 
-        print self.player_pos
-
         self.update()
         self.run()
 
     def update(self):
+        pygame.draw.rect(self.display, BLACK, [0,0,WINDOW_SIZE[0],WINDOW_SIZE[1]], 0)
+        game_title = self.font.render("@tariqk's stupid noddy roguelike exercise",
+                                      True, WHITE, BLACK)
+        coordinates = self.small_font.render("Noddy's location: (%d, %d)" %
+                                             (self.player_pos[0],self.player_pos[1]),
+                                             True, WHITE, BLACK)
+        self.display.blit(game_title, (0,
+                                       WINDOW_SIZE[1]-game_title.get_size()[1]))
+        self.display.blit(coordinates, (WINDOW_SIZE[0]-coordinates.get_size()[0],
+                                        WINDOW_SIZE[1]-coordinates.get_size()[1]))
         self.display_level()
         self.display_player()
+
         pygame.display.flip()
     
     def display_level(self):
