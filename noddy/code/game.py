@@ -6,10 +6,10 @@ class Level(object):
     """
     Represents the current level.
     """
-    def __init__(self):
-        self.new_map()
+    def __init__(self, size=MAPSIZE):
+        self.new_map(size)
 
-    def new_map(self, isEmpty=True):
+    def new_map(self, size):
         """
         Generate new map -- currently only creates an empty map.
 
@@ -19,13 +19,10 @@ class Level(object):
               war tells the game what to display; but the map remains
               the map.
         """
-        self.map = [] # right now it's empty; later we'll load or generate our own
-        for spam in range(MAPSIZE[0]): # fill everything with zeroes.
-            row = []
-            for eggs in range (MAPSIZE[1]):
-                row.append(0)
-            self.map.append(row)
-
+        self.map = [[0 for rows in range(size[1])] for columns in range(size[0])]
+        
     def print_ascii_map(self):
         for row in self.map:
             print row
+
+            

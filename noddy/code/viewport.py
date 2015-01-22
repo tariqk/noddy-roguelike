@@ -17,9 +17,16 @@ class Game(object):
         self.bg = pygame.image.load(os.path.join(RES_DIR, "img", "floor-dot.png"))
         self.font = pygame.font.SysFont(None, 18)
         self.small_font = pygame.font.SysFont(None, 12)
+
+        pxFontHeight = self.font.size(LARGETEXT)[1]
+        pxSmallFontHeight = self.small_font.size(LARGETEXT)[1]
         
         self.clock = pygame.time.Clock()
-        self.display = pygame.display.set_mode(WINDOW_SIZE)
+
+        self.screen = pygame.display.set_mode(WINDOW_SIZE)
+        self.viewport = self.screen.subsurface([0,pxFontHeight,
+                                                WINDOW_SIZE[0],
+                                                WINDOW_SIZE[1]-(2 * pxSmallFontHeight)])
 
         self.player_pos = (MAPSIZE[0]/2,MAPSIZE[1]/2)
 
@@ -27,33 +34,33 @@ class Game(object):
         self.run()
 
     def update(self):
-        pygame.draw.rect(self.display, BLACK, [0,0,WINDOW_SIZE[0],WINDOW_SIZE[1]], 0)
+        pygame.draw.rect(self.screen, BLACK, [0,0,WINDOW_SIZE[0],WINDOW_SIZE[1]], 0)
         game_title = self.font.render("@tariqk's stupid noddy roguelike exercise",
                                       True, WHITE, BLACK)
         coordinates = self.small_font.render("Noddy's location: (%d, %d)" %
                                              (self.player_pos[0],self.player_pos[1]),
                                              True, WHITE, BLACK)
-        self.display.blit(game_title, (0,
-                                       WINDOW_SIZE[1]-game_title.get_size()[1]))
-        self.display.blit(coordinates, (WINDOW_SIZE[0]-coordinates.get_size()[0],
+        self.screen.blit(game_title, (WINDOW_SIZE[0]-game_title.get_size()[0],0))
+        self.screen.blit(coordinates, (WINDOW_SIZE[0]-coordinates.get_size()[0],
                                         WINDOW_SIZE[1]-coordinates.get_size()[1]))
-        self.display_level()
-        self.display_player()
+        self.display_level(self.viewport)
+        self.display_player(self.viewport)
 
         pygame.display.flip()
     
-    def display_level(self):
+    def display_level(self, surface):
         x, y = 0, 0
         for row in self.current_level.map:
             for cell in row:
                 if cell == 0:
-                    self.display.blit(self.bg, (x*TILESIZE, y*TILESIZE))
+                    surface.blit(self.bg, (x*TILESIZE, y*TILESIZE))
                     y += 1
             y = 0
             x += 1
 
-    def display_player(self):
-        self.display.blit(self.player, (self.player_pos[0]*TILESIZE,self.player_pos[1]*TILESIZE))
+    def display_player(self, surface):
+        surface.blit(self.player, (self.player_pos[0]*TILESIZE,self.player_pos[1]*TILESIZE))
+
     def move_player(self,dx=0,dy=0):
         x, y = self.player_pos
         x += dx        

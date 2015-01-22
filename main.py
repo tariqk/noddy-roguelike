@@ -6,7 +6,6 @@ from pygame.locals import *
 sys.path.append("noddy/code")
 
 from constants import *
-from game import Level
 from viewport import Game
 
 # CLASSES
