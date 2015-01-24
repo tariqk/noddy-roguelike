@@ -1,17 +1,12 @@
 #! /usr/bin/env python
 
-import pygame, math, sys, os, traceback
+import pygame, sys, traceback
 from pygame.locals import *
 
 sys.path.append("noddy/code")
 
 from constants import *
 from viewport import Game
-
-# CLASSES
-
-
-# UTILITY FUNCTIONS
 
 def main():
     """ 

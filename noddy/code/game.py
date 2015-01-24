@@ -1,28 +1,49 @@
 #! /usr/bin/env python
 
+import os
+
 from constants import *
 
 class Level(object):
-    """
-    Represents the current level.
-    """
-    def __init__(self, size=MAPSIZE):
-        self.new_map(size)
+    """Represents the current level.
 
-    def new_map(self, size):
-        """
-        Generate new map -- currently only creates an empty map.
+    Try and avoid referencing stuff that only matters to the viewport
+    (i.e. paths to render images.)
 
-        Right now it assumes that map = fog of war. 
+    EXPECTED WONKY BEHAVIOUR: Obviously if empty-chamber.map is
+    uneven, it'll treat the game size as (longest line length, number
+    of rows). Dunno if it'll fuck up anything. This shit is temporary
+    anyway."""
+    
+    grid = []
+    
+    def __init__(self):
+        """Initialize. Currently just loads a test level."""
+        test_level_file = open(os.path.join(RES_DIR, 'txt',
+                                            'empty-chamber.map'), 'r')
 
-        TODO: separate map geometry and fog of war. By rights, fog of
-              war tells the game what to display; but the map remains
-              the map.
-        """
-        self.map = [[0 for rows in range(size[1])] for columns in range(size[0])]
-        
+        for line in test_level_file.readlines():
+            self.grid.append(list(line.strip()))
+
+        test_level_file.close()
+
     def print_ascii_map(self):
-        for row in self.map:
-            print row
+        for row in self.grid:
+            for column in self.grid:
+                print cell,
+
+    def get_size(self):
+        return (max(len(spam) for spam in self.grid), len(self.grid))
 
             
+class Actor(object):
+    """Represents everyone who can act within the game, including the
+    player."""
+
+    def __init__(self, Level, coordinates):
+        self.location, self.coordinates = Level, coordinates
+        memory = [[0 for rows in Level.get_size[1]] for columns in
+                  Level.get_size[0]]
+        memory[coordinates[0], coordinates[1]] = 1  # You always know
+                                                    # where you are in
+                                                    # a level.
