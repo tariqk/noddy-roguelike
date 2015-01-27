@@ -32,18 +32,28 @@ class Level(object):
             for column in self.grid:
                 print cell,
 
+    def return_viewport(self, start=(0,0), size=(1,1)):
+        result = []
+        for row in self.grid[start[1]:start[1]+size[1]]:
+            result.append(row[start[0]:start[0]+size[0]])
+        return result
+
     def get_size(self):
-        return (max(len(spam) for spam in self.grid), len(self.grid))
+        y = len(self.grid)
+        columns = []
+        for row in self.grid:
+            columns.append(len(row))
+        x = max(columns)
+        return ((x, y))
 
             
 class Actor(object):
     """Represents everyone who can act within the game, including the
     player."""
 
-    def __init__(self, Level, coordinates):
+    def __init__(self, Level, coordinates=(0,0)):
         self.location, self.coordinates = Level, coordinates
-        memory = [[0 for rows in Level.get_size[1]] for columns in
-                  Level.get_size[0]]
-        memory[coordinates[0], coordinates[1]] = 1  # You always know
-                                                    # where you are in
-                                                    # a level.
+        memory_size = Level.get_size()
+        self.memory = [[0 for columns in range(memory_size[0])] for
+                       rows in range(memory_size[1])]
+        self.memory[self.coordinates[1]][self.coordinates[0]] = 1  # You always know where you are in a level.
