@@ -29,3 +29,5 @@ pip-log.txt
 /include/
 /lib/
 /local/
+/#main.py#
+/src/

@@ -1,10 +1,13 @@
 #! /usr/bin/env python
 
-import os, sys, pygame
-from pygame.locals import *
+import os
+import sys
+import pygame
 
+from pygame.locals import *
 from constants import *
 from game import Level, Actor
+
 
 class Game(object):
     """ Represents the current game display, right now. """
@@ -12,34 +15,33 @@ class Game(object):
     def __init__(self):
         
         self.current_level = Level()
-        self.player = Actor(self.current_level, (15,15))
+        self.player = Actor(self.current_level, (15, 15))
         
         self.font = pygame.font.SysFont(None, 18)
         self.small_font = pygame.font.SysFont(None, 12)
 
         pxFontHeight = self.font.size(LARGETEXT)[1]
         pxSmallFontHeight = self.small_font.size(LARGETEXT)[1]
-        
 
-        self.maplegend = { ".":
-                           pygame.image.load(os.path.join(RES_DIR, "img",
-                                                          "floor-dot.png")),
-                           "#":
-                           pygame.image.load(os.path.join(RES_DIR, "img",
-                                                          "wall-hatch.png")) }
+        self.maplegend = {".": pygame.image.load(os.path.join(RES_DIR,
+                                                              "img",
+                                                              "floor-dot.png")),
+                          "#":
+                          pygame.image.load(os.path.join(RES_DIR,
+                                                         "img",
+                                                         "wall-hatch.png"))}
 
-        self.actorlegend = { self.player :
-                             pygame.image.load(os.path.join(RES_DIR,
-                                                            "img",
-                                                            "avg-humanoid.png")) } 
-
+        self.actorlegend = {self.player:
+                            pygame.image.load(os.path.join(RES_DIR, "img",
+                                                           "avg-humanoid.png"))}
 
         self.clock = pygame.time.Clock()
 
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
-        self.viewport = self.screen.subsurface([0,pxFontHeight,
+        self.viewport = self.screen.subsurface([0, pxFontHeight,
                                                 WINDOW_SIZE[0],
-                                                WINDOW_SIZE[1]-(2 * pxSmallFontHeight)])
+                                                WINDOW_SIZE[1]-(2 *
+                                                                pxSmallFontHeight)])
         self.viewsize = tuple(x/TILESIZE for x in self.viewport.get_size())
 
         self.update()
@@ -50,20 +52,24 @@ class Game(object):
         
     def update(self):
         self.fill_surface_with_color(self.screen, BLACK)
-        game_title = self.font.render("@tariqk's stupid noddy roguelike exercise",
-                                      True, WHITE, BLACK)
+
+        title_text = "@tariqk's crappy roguelike"
+        game_title = self.font.render(title_text, True, WHITE, BLACK)
         coordinates = self.small_font.render("Noddy's location: (%d, %d)" %
                                              (self.player.coordinates[0],
                                               self.player.coordinates[1]),
                                              True, WHITE, BLACK)
-        self.screen.blit(game_title, (WINDOW_SIZE[0]-game_title.get_size()[0],0))
-        self.screen.blit(coordinates, (WINDOW_SIZE[0]-coordinates.get_size()[0],
-                                        WINDOW_SIZE[1]-coordinates.get_size()[1]))
+
+        self.screen.blit(game_title,
+                         (WINDOW_SIZE[0]-game_title.get_size()[0], 0))
+        self.screen.blit(coordinates,
+                         (WINDOW_SIZE[0]-coordinates.get_size()[0],
+                          WINDOW_SIZE[1]-coordinates.get_size()[1]))
 
         self.update_viewport(self.player)
 
         self.display_level(self.viewport)
-        self.display_actor(self.viewport, self.player)        
+        self.display_actor(self.viewport, self.player)
 
         pygame.display.flip()
 
@@ -78,7 +84,9 @@ class Game(object):
     
     def display_level(self, surface):
         x, y = 0, 0
-        grid2render = self.current_level.return_viewport(self.viewport_cursor, self.viewsize)
+        cursor = self.viewport_cursor
+        size = self.viewsize
+        grid2render = self.current_level.return_viewport(cursor, size)
             
         for row in grid2render:
             for cell in row:
@@ -91,24 +99,20 @@ class Game(object):
     def display_actor(self, surface, actor):
         renderloc = (actor.coordinates[0]-self.viewport_cursor[0],
                      actor.coordinates[1]-self.viewport_cursor[1])
-        surface.blit(self.actorlegend[actor], (renderloc[0]*TILESIZE,renderloc[1]*TILESIZE))
+        x = renderloc[0] * TILESIZE
+        y = renderloc[1] * TILESIZE
+        surface.blit(self.actorlegend[actor], (x, y))
 
-    def move_actor(self,actor,dx=0,dy=0):
-        x, y = actor.coordinates
-        x += dx        
-        y += dy
-        if x > actor.location.get_size()[1]-1 or x < 0 or y > actor.location.get_size()[0]-1 or y < 0:
-            return
-        actor.coordinates = (x, y)
+    def move_actor(self, actor, dx=0, dy=0):
+        actor.move(dx, dy)
         self.update()
 
     def run(self):
-        """
-        Right now, just running things and listens to key presses for the exit key.
-        """
+        """Right now, just running things and listens to key presses for the
+           exit key."""
         while 1:
             self.clock.tick(30)
-            for event in pygame.event.get(): # potential improvement -- use dict?
+            for event in pygame.event.get():
                 if not hasattr(event, 'key'): continue
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE: sys.exit()

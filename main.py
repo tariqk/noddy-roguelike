@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 
-import pygame, sys, traceback
+import pygame
+import sys
+import traceback
 from pygame.locals import *
 
 sys.path.append("noddy/code")
@@ -8,14 +10,15 @@ sys.path.append("noddy/code")
 from constants import *
 from viewport import Game
 
+
 def main():
-    """ 
-    main loop 
+    """
+    main loop
     """
     game = Game()
 
 # THE RUNNING PROGRAM
-        
+
 if __name__ == "__main__":
     try:
         pygame.init()
