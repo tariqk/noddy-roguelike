@@ -5,21 +5,25 @@ A learning exercise on how to code a roguelike, using =pygame=.
 
 I'm using [[http://therealkatie.net/blog/tags/pygame/][this tutorial]] as a base, and will likely deviate as we go along. See how lah!
 
-* Some Important Notes, In Case You Forget
-
-** Quick notes on how this was set up
+* How This Was Set Up.
 
 (From base install of Python 2.7.3, using the Debian [[https://packages.debian.org/stable/python/][stable package]] (as of <2015-01-05 Mon>):
 
 - Install pip using [[https://bootstrap.pypa.io/get-pip.py][get-pip.py]].
-- =pip install virtualenv=
-- Shenanigans with =pygame=.
+- =sudo pip install virtualenv=
+- =git clone https://github.com/tariqk/noddy-roguelike.git=.
+- =virtualenv noddy-roguelike=
+- Shenanigans with =pygame=, as seen below.
 
-*** =pygame= is fucking broken
+** Getting =pygame= installed in a python virtual env
 
-No, seriously, at least as of 1.9.1release. You can't install it using =pip install pygame=. 
+First off: can't install it using =pip install pygame=, at least not for now.
+
+These instructions assume you can compile the =pygame= module, which rules out, currently, Windows (at least vanilla — I've yet to try it, and it involves installing things I'm /completely/ unfamiliar with.
 
 Do try to install it using =pip install hg+https://bitbucket.com/pygame/pygame=, if only to confirm that the problem you were having was because the bloody problem was related to the network and not something about bitbucket.
+
+*** Installing on Linux
 
 In the end, what we ended up doing was this (running on CrunchBang Waldorf):
 
@@ -36,8 +40,19 @@ Basically: for some /damn/ reason, =pygame= keeps bloody referring to =videodev.
 
 Bloody annoyance, but I finally got it done. Thank god. Shouldn't need to happen again, but you never know.
 
-**** References
+** References
 
 [[https://gist.github.com/brousch/6395214][First pointers on how to solve this problem]].
 
 [[https://bitbucket.org/pygame/pygame/issue/140/pip-install-pygame-fails-on-ubuntu-1204][Pygame Issue #140, which references this problem]].
+
+* Neat Ideas
+- [ ] Clean up =viewport.py=:
+  + Reference: Bob Nystrom's [[http://journal.stuffwithstuff.com/2014/07/15/a-turn-based-game-loop/][A Turn-Based Game Loop]], which outlines implementing a game loop using the Command Pattern. [[http://gameprogrammingpatterns.com/command.html][Here's him writing more about it]].
+- [ ] Implement the map fully, using flyweights.
+  + [[http://gameprogrammingpatterns.com/flyweight.html][Nystrom to the rescue again]].
+  + [[https://push.cx/2006/python-flyweights][Another reference, this time using Python as an example]].
+- [ ] Level Generation:
+  + [[http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/][My god I'm reading a lot of this guy]].
+  + Things to look up:
+    * Maze generation algorithms.
