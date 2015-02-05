@@ -11,15 +11,20 @@ class Level(object):
     Try and avoid referencing stuff that only matters to the viewport
     (i.e. paths to render images.)
 
-    EXPECTED WONKY BEHAVIOUR: Obviously if empty-chamber.map is
-    uneven, it'll treat the game size as (longest line length, number
-    of rows). Dunno if it'll fuck up anything. This shit is temporary
-    anyway."""
+    EXPECTED WONKY BEHAVIOUR: Obviously if the test map is uneven,
+    it'll treat the game size as (longest line length, number of
+    rows). Dunno if it'll fuck up anything. This shit is temporary
+    anyway.
 
-    grid = []
-    
+    """
+
     def __init__(self):
         """Initialize. Currently just loads a test level."""
+        self.grid = []
+        self.level_gen()
+
+    def level_gen(self):
+        """Stub for level-generation code. Right now reads a test-file."""
         test_level_file = open(os.path.join(RES_DIR, 'txt',
                                             'test-chambers.map'), 'r')
 
@@ -66,7 +71,7 @@ class Level(object):
         else:
             return True
 
-
+        
 class Actor(object):
     """Represents everyone who can act within the game, including the
     player."""
