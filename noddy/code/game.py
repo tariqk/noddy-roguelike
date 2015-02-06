@@ -1,10 +1,12 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 
+from tiles import Wall, Floor
 from constants import *
 
-
+
 class Level(object):
     """Represents the current level.
 
@@ -25,13 +27,24 @@ class Level(object):
 
     def level_gen(self):
         """Stub for level-generation code. Right now reads a test-file."""
+        tmp = []
+        
         test_level_file = open(os.path.join(RES_DIR, 'txt',
                                             'test-chambers.map'), 'r')
 
         for line in test_level_file.readlines():
-            self.grid.append(list(line.strip()))
+            tmp.append(list(line.strip()))
 
         test_level_file.close()
+
+        maplegend = {"#": Wall(),
+                     ".": Floor()}
+        
+        for row in tmp:
+            tmp_row = []
+            for cell in row:
+                tmp_row.append(maplegend[cell])
+            self.grid.append(tmp_row)
 
     def return_viewport(self, start=(0, 0), size=(1, 1)):
         """Return viewport to render."""
@@ -54,12 +67,7 @@ class Level(object):
         """Temporary stub function for determining whether a space is
            passable or not."""
         x, y = coordinates[0], coordinates[1]
-        if self.grid[y][x] == "#":
-            return False
-        elif self.grid[y][x] == ".":
-            return True
-        else:
-            raise Exception("Unknown grid type.")
+        return self.grid[y][x].is_passable()
 
     def within_bounds(self, coordinates=(0, 0)):
         """ Is the location within bounds? """
@@ -71,7 +79,7 @@ class Level(object):
         else:
             return True
 
-        
+
 class Actor(object):
     """Represents everyone who can act within the game, including the
     player."""

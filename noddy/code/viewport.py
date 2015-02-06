@@ -6,7 +6,8 @@ import pygame
 
 from pygame.locals import *
 from constants import *
-from game import Level, Actor
+from game import *
+from tiles import Wall, Floor
 
 
 class Game(object):
@@ -23,10 +24,11 @@ class Game(object):
         pxFontHeight = self.font.size(LARGETEXT)[1]
         pxSmallFontHeight = self.small_font.size(LARGETEXT)[1]
 
-        self.maplegend = {".": pygame.image.load(os.path.join(RES_DIR,
-                                                              "img",
-                                                              "floor-dot.png")),
-                          "#":
+        self.maplegend = {type(Floor()):
+                          pygame.image.load(os.path.join(RES_DIR,
+                                                         "img",
+                                                         "floor-dot.png")),
+                          type(Wall()):
                           pygame.image.load(os.path.join(RES_DIR,
                                                          "img",
                                                          "wall-hatch.png"))}
@@ -90,7 +92,7 @@ class Game(object):
             
         for row in grid2render:
             for cell in row:
-                render_image = self.maplegend[cell]
+                render_image = self.maplegend[type(cell)]
                 surface.blit(render_image, (x*TILESIZE, y*TILESIZE))
                 x += 1
             x = 0

@@ -52,6 +52,7 @@ Bloody annoyance, but I finally got it done. Thank god. Shouldn't need to happen
 - [ ] Implement the map fully, using flyweights.
   + [[http://gameprogrammingpatterns.com/flyweight.html][Nystrom to the rescue again]].
   + [[https://push.cx/2006/python-flyweights][Another reference, this time using Python as an example]].
+  + [[http://yloiseau.net/articles/DesignPatterns/flyweight/][Yannick Loiseau's version, which was the one I ended up using]].
 - [ ] Level Generation:
   + [[http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/][My god I'm reading a lot of this guy]].
   + Things to look up:
