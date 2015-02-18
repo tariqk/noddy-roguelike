@@ -112,7 +112,8 @@ class Game(object):
     def run(self):
         """Right now, just running things and listens to key presses for the
            exit key."""
-        while 1:
+        
+        while True:
             self.clock.tick(30)
             for event in pygame.event.get():
                 if not hasattr(event, 'key'): continue

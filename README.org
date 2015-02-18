@@ -33,12 +33,18 @@ sudo apt-get build-dep python-pygame
 sudo apt-get install python-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsdl1.2-dev libsmpeg-dev python-numpy subversion libportmidi-dev ffmpeg libswscale-dev libavformat-dev libavcodec-dev libv4l-dev
 cd /usr/include/linux
 sudo ln -s ../libv4l1-videodev.h videodev.h
-pip install http://www.pygame.org/ftp/pygame-1.9.1release.tar.gz
+pip install https://bitbucket.org/pygame/pygame/get/db5966ca2b4d.zip
 #+end_src
 
 Basically: for some /damn/ reason, =pygame= keeps bloody referring to =videodev.h=, when it apparently doesn't bloody exist in the OS. Quick workaround? Create a symlink from =libv1l1-videodev.h= and call it =videodev.h=.
 
 Bloody annoyance, but I finally got it done. Thank god. Shouldn't need to happen again, but you never know.
+
+**** Updated <2015-02-19 Thu>: 
+
+Looks like you can do this with the direct bitbucket repository link (i.e. go [[https://bitbucket.org/pygame/pygame/downloads][here]], choose the “Download repository” link, which as of today is [[https://bitbucket.org/pygame/pygame/get/db5966ca2b4d.zip][this]]). Whether this leads to breakage will need to be seen. But, on the plus side: I get up-to-date docs. 
+
+If you want to use the current release version, use =pip install http://www.pygame.org/ftp/pygame-1.9.1release.tar.gz= instead.
 
 ** References
 
@@ -53,6 +59,8 @@ Bloody annoyance, but I finally got it done. Thank god. Shouldn't need to happen
   + [[http://gameprogrammingpatterns.com/flyweight.html][Nystrom to the rescue again]].
   + [[https://push.cx/2006/python-flyweights][Another reference, this time using Python as an example]].
   + [[http://yloiseau.net/articles/DesignPatterns/flyweight/][Yannick Loiseau's version, which was the one I ended up using]].
+    * [ ] Notes to self: rethink what extrinsic & intrinsic elements of flyweights are. What is common with all tiles of this type, and what isn't?
+    * [ ] Consider some kind of "registration protocol" for both Actor() and Tile() classes. That way you can "register" a new tile without putting in new code.
 - [ ] Level Generation:
   + [[http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/][My god I'm reading a lot of this guy]].
   + Things to look up:

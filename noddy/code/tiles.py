@@ -64,6 +64,7 @@ class Floor(Tiles):
     """The default floor type."""
     _passable = True
     _blocking = False
+    ident = "default_floor"
 
     def __init__(self):
         pass
@@ -73,6 +74,7 @@ class Wall(Tiles):
     """The default wall type."""
     _passable = False
     _blocking = True
+    ident = "default_wall"
 
     def __init__(self):
         pass

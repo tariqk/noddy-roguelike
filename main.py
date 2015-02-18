@@ -22,6 +22,7 @@ def main():
 if __name__ == "__main__":
     try:
         pygame.init()
+        pygame.key.set_repeat(200, 50)
         main()
     except Exception, e:
         tb = sys.exc_info()[2]
