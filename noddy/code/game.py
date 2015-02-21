@@ -6,6 +6,11 @@ import os
 from tiles import Wall, Floor
 from constants import *
 
+
+class World(object):
+    """Container for all the levels that are generated in the game."""
+    pass
+
 
 class Level(object):
     """Represents the current level.
@@ -13,10 +18,9 @@ class Level(object):
     Try and avoid referencing stuff that only matters to the viewport
     (i.e. paths to render images.)
 
-    EXPECTED WONKY BEHAVIOUR: Obviously if the test map is uneven,
-    it'll treat the game size as (longest line length, number of
-    rows). Dunno if it'll fuck up anything. This shit is temporary
-    anyway.
+    EXPECTED WONKY BEHAVIOUR: If the test map is uneven, it'll treat
+    the game size as (longest line length, number of rows). Dunno if
+    it'll fuck up anything. This shit is temporary anyway.
 
     """
 

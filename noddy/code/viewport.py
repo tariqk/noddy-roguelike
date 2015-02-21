@@ -12,9 +12,25 @@ from tiles import Wall, Floor
 
 class Game(object):
     """ Represents the current game display, right now. """
-   
+
     def __init__(self):
-        
+
+        self.keymap = {
+            K_ESCAPE: lambda: sys.exit(),
+            K_LEFT: lambda: self.move_actor(self.player, dx=-1),
+            K_RIGHT: lambda: self.move_actor(self.player, dx=1),
+            K_UP: lambda: self.move_actor(self.player, dy=-1),
+            K_DOWN: lambda: self.move_actor(self.player, dy=1),
+            K_KP4: lambda: self.move_actor(self.player, dx=-1),
+            K_KP6: lambda: self.move_actor(self.player, dx=1),
+            K_KP8: lambda: self.move_actor(self.player, dy=-1),
+            K_KP2: lambda: self.move_actor(self.player, dy=1),
+            K_KP7: lambda: self.move_actor(self.player, dx=-1, dy=-1),
+            K_KP9: lambda: self.move_actor(self.player, dx=1, dy=-1),
+            K_KP1: lambda: self.move_actor(self.player, dx=-1, dy=1),
+            K_KP3: lambda: self.move_actor(self.player, dx=1, dy=1)
+        }
+
         self.current_level = Level()
         self.player = Actor(self.current_level, (15, 15))
         
@@ -109,6 +125,16 @@ class Game(object):
         actor.move(dx, dy)
         self.update()
 
+    def handle_input(self, event):
+        if not hasattr(event, 'key'):
+            return None
+        else:
+            if event.type == KEYDOWN:
+                if event.key in self.keymap:
+                    return self.keymap[event.key]
+                else:
+                    return None
+
     def run(self):
         """Right now, just running things and listens to key presses for the
            exit key."""
@@ -116,10 +142,6 @@ class Game(object):
         while True:
             self.clock.tick(30)
             for event in pygame.event.get():
-                if not hasattr(event, 'key'): continue
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE: sys.exit()
-                    if event.key == K_LEFT: self.move_actor(self.player, dx=-1)
-                    if event.key == K_RIGHT: self.move_actor(self.player, dx=1)
-                    if event.key == K_UP: self.move_actor(self.player, dy=-1)
-                    if event.key == K_DOWN: self.move_actor(self.player, dy=1)
+                action = self.handle_input(event)
+                if action:
+                    action()
